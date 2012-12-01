@@ -1,0 +1,10 @@
+﻿<jme:BorderlessWindow x:Class="WpfTestAplication.MainWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:jme="clr-namespace:Jmelosegui.Windows;assembly=Jmelosegui.Windows"
+            Title="MainWindow" Height="350" Width="525"
+            MinHeight="420" MinWidth="640">
+    <Grid>
+
+    </Grid>
+</jme:BorderlessWindow>
