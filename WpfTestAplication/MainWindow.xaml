@@ -5,6 +5,6 @@
             Title="MainWindow" Height="350" Width="525"
             MinHeight="420" MinWidth="640">
     <Grid>
-
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10" Background="Aqua" Margin="474,-13,0,364" Height="38" Width="158">Hola Mundo</TextBlock>
     </Grid>
 </jme:BorderlessWindow>
