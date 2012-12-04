@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BorderlessWindowBehavior.cs.cs" />
-    <Compile Include="BorderLessWindows.xaml.cs">
+    <Compile Include="BorderLessWindows.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HardwareRenderingHelper.cs" />
