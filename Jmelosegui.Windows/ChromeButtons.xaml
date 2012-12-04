@@ -53,17 +53,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Windows:BorderlessWindow}">
-                    <ControlTemplate.Resources>
-                        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-                    </ControlTemplate.Resources>
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <ContentPresenter Grid.ColumnSpan="2" Grid.Row="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                                 <Button Name="PART_MINIMIZE_BUTTON" Style="{StaticResource ChromeButtonStyle}" IsTabStop="False" ToolTip="minimizar" RenderOptions.EdgeMode="Aliased" Command="{Binding RelativeSource={RelativeSource Self}, Path=Minimize}" >
                                     <Path Margin="12,15,12,7" Data="M0,0L0,2 7.999,2 7.999,0 0,0z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
                                 </Button>
@@ -79,8 +72,8 @@
                                     <Path Margin="12,10" Data="M10.009,1.704L8.331,0.026 5.03,3.327 1.703,0 0,1.704 3.326,5.031 0.025,8.332 1.703,10.009 5.004,6.708 8.305,10.009 10.009,8.305 6.708,5.005" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
                                 </Button>
                             </StackPanel>
-                            <Grid x:Name="PART_FRAMEGRID" Grid.ColumnSpan="2">
-                                <Border x:Name="PART_NODWMBORDER" BorderThickness="1" BorderBrush="{StaticResource MppAccentBrush}" Visibility="{Binding IsnoDwmBorderVisible, Converter={StaticResource BooleanToVisibilityConverter}}" IsHitTestVisible="False" />
+                            <Grid x:Name="PART_FRAMEGRID">
+                                <Border x:Name="PART_NODWMBORDER" BorderThickness="1" BorderBrush="{StaticResource MppAccentBrush}" IsHitTestVisible="False" />
                                 <Rectangle x:Name="PART_TOP_BORDER" VerticalAlignment="Top" Height="7" Margin="8,0,8,0" Fill="#00000000" Stroke="{x:Null}"  />
                                 <Rectangle x:Name="PART_BOTTOM_BORDER" Height="7" VerticalAlignment="Bottom" Margin="8,0,8,0" Fill="#00000000" Stroke="{x:Null}"  />
                                 <Rectangle x:Name="PART_LEFT_BORDER" HorizontalAlignment="Left" Margin="0,7,0,7" Width="8" Fill="#00000000" Stroke="{x:Null}"  />

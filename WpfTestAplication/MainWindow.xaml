@@ -2,8 +2,8 @@
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:jme="clr-namespace:Jmelosegui.Windows;assembly=Jmelosegui.Windows"
-            Title="MainWindow" Height="350" Width="525">
+            Title="MainWindow" Height="315" Width="514">
     <Grid>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10" Background="Aqua" Margin="238,107,236,244" Height="38" Width="158">Hola Mundo</TextBlock>
+        <TextBlock Padding="10" Background="Aqua" Margin="0,72,179,0" HorizontalAlignment="Right" Width="158" Height="44" VerticalAlignment="Top">Hola Mundo</TextBlock>
     </Grid>
 </jme:BorderlessWindow>
