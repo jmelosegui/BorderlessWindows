@@ -231,7 +231,7 @@ namespace Jmelosegui.Windows
                              DwmIsCompositionEnabled() && !SystemInformation.TerminalServerSession;
                 uint pvParam = 0U;
                 bool flag2 =
-                    UnsafeNativeMethods.SystemParametersInfo(SystemParametersInfoAction.SpiGetdropshadow, 0U,
+                    UNSAFENATIVEMETHODS.SystemParametersInfo(SystemParametersInfoAction.SpiGetdropshadow, 0U,
                                                              ref pvParam, 0U) && (int)pvParam != 0;
                 noDwmBorder.Visibility = ((flag1 && flag2 && !IsActive) ? Visibility.Hidden : Visibility.Visible);
                 

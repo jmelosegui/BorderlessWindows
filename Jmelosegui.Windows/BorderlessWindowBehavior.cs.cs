@@ -150,21 +150,21 @@ namespace Jmelosegui.Windows
                     // Works for Windows Vista and higher
                     if (isHardwareRenderingEnabled)
                     {
-                        var m = new Margins {bottomHeight = 1, leftWidth = 1, rightWidth = 1, topHeight = 1};
-                        UnsafeNativeMethods.DwmExtendFrameIntoClientArea(mHwnd, ref m);
+                        var m = new MARGINS {bottomHeight = 1, leftWidth = 1, rightWidth = 1, topHeight = 1};
+                        UNSAFENATIVEMETHODS.DwmExtendFrameIntoClientArea(mHwnd, ref m);
                     }
                     handled = true;
                     break;
                 case WmNcactivate:
                     /* As per http://msdn.microsoft.com/en-us/library/ms632633(VS.85).aspx , "-1" lParam does not
                      * repaint the nonclient area to reflect the state change. */
-                    returnval = UnsafeNativeMethods.DefWindowProc(hWnd, message, wParam, new IntPtr(-1));
+                    returnval = UNSAFENATIVEMETHODS.DefWindowProc(hWnd, message, wParam, new IntPtr(-1));
                     handled = true;
                     break;
                 case WmGetminmaxinfo:
                     /* From Lester's Blog (thanks @aeoth):  
                      * http://blogs.msdn.com/b/llobo/archive/2006/08/01/maximizing-window-_2800_with-windowstyle_3d00_none_2900_-considering-taskbar.aspx */
-                    UnsafeNativeMethods.WmGetMinMaxInfo(hWnd, lParam, minimumSize);
+                    UNSAFENATIVEMETHODS.WmGetMinMaxInfo(hWnd, lParam, minimumSize);
                     handled = true;
                     break;
             }

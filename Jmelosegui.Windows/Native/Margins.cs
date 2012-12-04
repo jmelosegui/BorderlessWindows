@@ -3,7 +3,7 @@
 namespace Jmelosegui.Windows.Native
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Margins
+    public struct MARGINS
     {
         public int leftWidth;
         public int rightWidth;

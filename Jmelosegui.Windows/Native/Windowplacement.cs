@@ -3,7 +3,7 @@
 namespace Jmelosegui.Windows.Native
 {
     [Serializable]
-    public struct Windowplacement
+    public struct WINDOWPLACEMENT
     {
         public int Length;
         public int Flags;

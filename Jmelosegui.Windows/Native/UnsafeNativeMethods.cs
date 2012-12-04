@@ -5,14 +5,14 @@ using System.Security;
 namespace Jmelosegui.Windows.Native
 {
     [SuppressUnmanagedCodeSecurity]
-    public static class UnsafeNativeMethods
+    public static class UNSAFENATIVEMETHODS
     {
         [DllImport("User32")]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
         internal static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam, POINT minSize)
         {
-            var mmi = (Minmaxinfo) Marshal.PtrToStructure(lParam, typeof (Minmaxinfo));
+            var mmi = (MINMAXINFO) Marshal.PtrToStructure(lParam, typeof (MINMAXINFO));
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
             const int monitorDefaulttonearest = 0x00000002;
@@ -20,7 +20,7 @@ namespace Jmelosegui.Windows.Native
 
             if (monitor != IntPtr.Zero)
             {
-                var monitorInfo = new Monitorinfo();
+                var monitorInfo = new MONITORINFO();
                 GetMonitorInfo(monitor, monitorInfo);
                 RECT rcWorkArea = monitorInfo.rcWork;
                 RECT rcMonitorArea = monitorInfo.rcMonitor;
@@ -42,11 +42,11 @@ namespace Jmelosegui.Windows.Native
         internal static extern IntPtr GetForegroundWindow();
 
         [DllImport("dwmapi.dll")]
-        internal static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins pMarInset);
+        internal static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
 
         [DllImport("user32", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetMonitorInfo([In] IntPtr hMonitor, [Out] Monitorinfo lpmi);
+        internal static extern bool GetMonitorInfo([In] IntPtr hMonitor, [Out] MONITORINFO lpmi);
 
         [DllImport("user32.dll", EntryPoint = "SetClassLong")]
         internal static extern uint SetClassLongPtr32(IntPtr hWnd, int nIndex, uint dwNewLong);
@@ -61,10 +61,10 @@ namespace Jmelosegui.Windows.Native
         internal static extern IntPtr CreateSolidBrush(int crColor);
 
         [DllImport("user32.dll")]
-        internal static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref Windowplacement lpwndpl);
+        internal static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
 
         [DllImport("user32.dll")]
-        internal static extern bool GetWindowPlacement(IntPtr hWnd, out Windowplacement lpwndpl);
+        internal static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SystemParametersInfo(SystemParametersInfoAction uiAction, uint uiParam,

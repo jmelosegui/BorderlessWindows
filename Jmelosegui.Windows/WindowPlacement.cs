@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
@@ -14,33 +17,34 @@ namespace Jmelosegui.Windows
 
         public static void SavePlacement(this Window window)
         {
-            //try
-            //{
-            //    ICacheManager userCache = CacheFactory.GetCacheManager("Cache Manager");
-            //    userCache.Add("Application:WindowPlacement", GetPlacement(GetHandle(window)));
-            //}
-            //catch
-            //{
-            //}
+            try
+            {
+                WriteToFile(GetPlacement(GetHandle(window)));
+            }
+            catch
+            {
+            }
         }
 
         public static void RestorePlacement(this Window window)
         {
-            //ICacheManager userCache = CacheFactory.GetCacheManager("Cache Manager");
-            //WINDOWPLACEMENT placement;
-            //try
-            //{
-            //    placement = (WINDOWPLACEMENT)userCache.GetData("Application:WindowPlacement");
-            //}
-            //catch
-            //{
-            //    placement = new WINDOWPLACEMENT { length = -1 };
-            //}
-            //IntPtr handle = window.GetHandle();
+            var placement = new WINDOWPLACEMENT();
+            try
+            {
+                var readFromFile = ReadFromFile();
 
-            //if (placement.length != -1)
-            //    SetPlacement(handle, placement);
-            //SizeWindowToScreen(window, handle);
+                if (readFromFile.HasValue) 
+                    placement = readFromFile.Value;
+            }
+            catch
+            {
+                placement = new WINDOWPLACEMENT { Length = -1 };
+            }
+            IntPtr handle = window.GetHandle();
+
+            if (placement.Length != -1)
+                SetPlacement(handle, placement);
+            SizeWindowToScreen(window, handle);
         }
 
         private static void SizeWindowToScreen(Window window, IntPtr hwnd)
@@ -61,19 +65,39 @@ namespace Jmelosegui.Windows
             return new WindowInteropHelper(window).Handle;
         }
 
-        private static Windowplacement GetPlacement(IntPtr windowHandle)
+        private static WINDOWPLACEMENT GetPlacement(IntPtr windowHandle)
         {
-            Windowplacement lpwndpl;
-            UnsafeNativeMethods.GetWindowPlacement(windowHandle, out lpwndpl);
+            WINDOWPLACEMENT lpwndpl;
+            UNSAFENATIVEMETHODS.GetWindowPlacement(windowHandle, out lpwndpl);
             return lpwndpl;
         }
 
-        private static void SetPlacement(IntPtr windowHandle, Windowplacement placement)
+        private static void SetPlacement(IntPtr windowHandle, WINDOWPLACEMENT placement)
         {
-            placement.Length = Marshal.SizeOf(typeof (Windowplacement));
+            placement.Length = Marshal.SizeOf(typeof (WINDOWPLACEMENT));
             placement.Flags = 0;
             placement.ShowCmd = placement.ShowCmd == SwShowminimized ? SwShownormal : placement.ShowCmd;
-            UnsafeNativeMethods.SetWindowPlacement(windowHandle, ref placement);
+            UNSAFENATIVEMETHODS.SetWindowPlacement(windowHandle, ref placement);
+        }
+
+        private static WINDOWPLACEMENT? ReadFromFile()
+        {
+            IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+            using (var stream = new IsolatedStorageFileStream("BorderLessWindowsPlacement.txt", FileMode.Open, isoStore))
+            {
+                var binaryFormatter = new BinaryFormatter();
+                return binaryFormatter.Deserialize(stream) as WINDOWPLACEMENT?;
+            }
+        }
+
+        private static void WriteToFile(WINDOWPLACEMENT value)
+        {
+            IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+            using (var stream =new IsolatedStorageFileStream("BorderLessWindowsPlacement.txt", FileMode.OpenOrCreate, isoStore))
+            {
+                var binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(stream, value);
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace Jmelosegui.Windows.Native
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Minmaxinfo
+    public struct MINMAXINFO
     {
         public POINT ptReserved;
         public POINT ptMaxSize;
