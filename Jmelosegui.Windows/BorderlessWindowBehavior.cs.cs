@@ -49,15 +49,19 @@ namespace Jmelosegui.Windows
                 AssociatedObject.SourceInitialized += AssociatedObjectSourceInitialized;
 
             AssociatedObject.WindowStyle = WindowStyle.None;
-            AssociatedObject.ResizeMode = ResizeWithGrip ? ResizeMode.CanResizeWithGrip : ResizeMode.CanResize;
+
+            if (AssociatedObject.ResizeMode != ResizeMode.NoResize)
+            {
+                AssociatedObject.ResizeMode = ResizeWithGrip ? ResizeMode.CanResizeWithGrip : ResizeMode.CanResize;
+            }
 
             AssociatedObject.MouseLeftButtonDown += (s, e) =>
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    if (e.LeftButton == MouseButtonState.Pressed)
-                    {
-                        AssociatedObject.DragMove();
-                    }
-                };
+                    AssociatedObject.DragMove();
+                }
+            };
 
             RegisterDepPropCallback(AssociatedObject, FrameworkElement.HeightProperty, OnSizeChange);
             RegisterDepPropCallback(AssociatedObject, FrameworkElement.WidthProperty, OnSizeChange);

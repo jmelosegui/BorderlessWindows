@@ -61,6 +61,11 @@ namespace Jmelosegui.Windows
                 minimizeButton.Command = minimizeCommand;
                 MinimizeButton = minimizeButton;
             }
+
+            if (this.ResizeMode == ResizeMode.NoResize)
+            {
+                MinimizeButton.Visibility = Visibility.Hidden;
+            }
         }
 
         private readonly RoutedUICommand maximizeCommand = new RoutedUICommand("Maximize", "Maximize", typeof(BorderlessWindow));
@@ -77,6 +82,15 @@ namespace Jmelosegui.Windows
             {
                 maximizeButton.Command = maximizeCommand;
                 MaximizeButton = maximizeButton;
+            }
+
+            if (this.ResizeMode == ResizeMode.NoResize)
+            {
+                MaximizeButton.Visibility = Visibility.Hidden;
+            }
+            if (this.ResizeMode == ResizeMode.CanMinimize)
+            {
+                MaximizeButton.IsEnabled = false;
             }
         }
 
@@ -253,7 +267,9 @@ namespace Jmelosegui.Windows
         }
 
         private void Resize(Rectangle borderRectangle, bool doResize = false)
-        {
+        {            
+            if (!doResize)
+                return;
             ResizeDirection index;
             if (Equals(borderRectangle, top))
                 index = ResizeDirection.Top;
@@ -278,8 +294,7 @@ namespace Jmelosegui.Windows
                 index = ResizeDirection.BottomRight;
             }
             Cursor = resizeCursors[index];
-            if (!doResize)
-                return;
+
             var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
             if (hwndSource == null)
                 return;
@@ -311,7 +326,7 @@ namespace Jmelosegui.Windows
         [DebuggerStepThrough]
         private void HandleRectanglePreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            Resize(sender as Rectangle, true);
+            Resize(sender as Rectangle, this.ResizeMode != System.Windows.ResizeMode.NoResize);
         }
 
         [DebuggerStepThrough]

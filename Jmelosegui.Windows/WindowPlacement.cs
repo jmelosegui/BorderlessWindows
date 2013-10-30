@@ -17,6 +17,8 @@ namespace Jmelosegui.Windows
 
         public static void SavePlacement(this Window window)
         {
+            if (window.WindowStartupLocation != WindowStartupLocation.Manual) return;
+
             try
             {
                 WriteToFile(GetPlacement(GetHandle(window)));
@@ -28,6 +30,8 @@ namespace Jmelosegui.Windows
 
         public static void RestorePlacement(this Window window)
         {
+            if(window.WindowStartupLocation != WindowStartupLocation.Manual) return;
+
             var placement = new WINDOWPLACEMENT();
             try
             {
